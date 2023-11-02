@@ -23,7 +23,7 @@ const MultiplicationGame: React.FC<MultiplicationGameProps> = ({}) => {
 
   const getNewMultiplication = async () => {
     const res = await axios.get(`${backendUrl}/get-random-multiplication`);
-    setQuestion(res.data);
+    await setQuestion(res.data);
   };
   useEffect(() => {
     getNewMultiplication();
@@ -54,7 +54,7 @@ const MultiplicationGame: React.FC<MultiplicationGameProps> = ({}) => {
       ) : (
         <>
           <h1 className={cn('text-8xl font-bold')}>
-            {question.firstNumber} x {question.secondNumber} =
+            {question.firstNumber} x {question.secondNumber}
           </h1>
           <div className="flex justify-between mt-[2rem] space-x-[2rem]">
             {question.options.map((option) => (
