@@ -22,12 +22,16 @@ const MultiplicationGame: React.FC<MultiplicationGameProps> = ({}) => {
   });
 
   const getNewMultiplication = async () => {
-    const res = await axios.get(`${backendUrl}/get-random-multiplication`);
-    await setQuestion(res.data);
+    try {
+      const res = await axios.get(`${backendUrl}/get-random-multiplication`);
+      await setQuestion(res.data);
+      setLoading(false);
+    } catch (error) {
+      console.log(error)
+    }
   };
   useEffect(() => {
     getNewMultiplication();
-    setLoading(false);
   }, []);
 
   const handleAnswerClicked = async (option: number, answer: number) => {
