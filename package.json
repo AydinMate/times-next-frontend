@@ -25,8 +25,7 @@
     "react-dom": "^18",
     "react-spinners": "^0.13.8",
     "tailwind-merge": "^2.0.0",
-    "tailwindcss-animate": "^1.0.7",
-    "use-sound": "^4.0.1"
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@types/node": "^20",
