@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import { GeistSans } from 'geist/font';
 import './globals.css';
 import { ClerkProvider } from '@clerk/nextjs';
+import { ThemeProvider } from '@/providers/theme-provider';
+
 
 export const metadata: Metadata = {
   title: 'Times tables quiz',
@@ -16,7 +18,16 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en" className={GeistSans.className}>
-        <body>{children}</body>
+        <body>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+          </ThemeProvider>
+        </body>
       </html>
     </ClerkProvider>
   );
