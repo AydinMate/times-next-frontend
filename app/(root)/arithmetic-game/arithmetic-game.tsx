@@ -19,9 +19,7 @@ type isCorrect = boolean | null;
 
 const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
-const ArithmeticGame: React.FC<ArithmeticGameProps> = ({
-  settings,
-}) => {
+const ArithmeticGame: React.FC<ArithmeticGameProps> = ({ settings }) => {
   const [url, setUrl] = useState('');
   const [isCorrect, setIsCorrect] = useState<isCorrect>(null);
   const [loading, setLoading] = useState(true);
@@ -75,36 +73,38 @@ const ArithmeticGame: React.FC<ArithmeticGameProps> = ({
   return (
     <div
       className={cn(
-        'flex flex-col items-center justify-center w-full h-full mt-[2rem]',
+        'w-full h-full',
         isCorrect !== null && (isCorrect ? 'bg-green-400' : 'bg-red-400')
       )}
     >
-      {loading === true ? (
-        <MoonLoader color="#ffffff" size={130} />
-      ) : (
-        <>
-          <h1 className={cn('text-7xl font-bold sm:text-8xl')}>
-            <span
-              dangerouslySetInnerHTML={{
-                __html: `${question.firstNumber} &nbsp; ${question.operation} &nbsp; ${question.secondNumber}`,
-              }}
-            />
-          </h1>
+      <div className='mt-[2rem] sm:mt-0 flex flex-col items-center justify-center w-full h-full'>
+        {loading === true ? (
+          <MoonLoader color="#ffffff" size={130} />
+        ) : (
+          <>
+            <h1 className={cn('text-7xl font-bold sm:text-8xl')}>
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: `${question.firstNumber} &nbsp; ${question.operation} &nbsp; ${question.secondNumber}`,
+                }}
+              />
+            </h1>
 
-          <div className="grid grid-cols-2 justify-between mt-[3rem] sm:flex">
-            {question.options.map((option) => (
-              <Button
-                variant={'ghost'}
-                key={option}
-                className="text-5xl font-bold py-[3rem] mx-[2rem] sm:text-6xl"
-                onClick={() => handleAnswerClicked(option, question.answer)}
-              >
-                {option}
-              </Button>
-            ))}
-          </div>
-        </>
-      )}
+            <div className="grid grid-cols-2 justify-between mt-[3rem] sm:flex">
+              {question.options.map((option) => (
+                <Button
+                  variant={'ghost'}
+                  key={option}
+                  className="text-5xl font-bold py-[3rem] mx-[2rem] sm:text-6xl"
+                  onClick={() => handleAnswerClicked(option, question.answer)}
+                >
+                  {option}
+                </Button>
+              ))}
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 };
