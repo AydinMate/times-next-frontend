@@ -1,29 +1,30 @@
+
 'use client';
 import { Button } from '@/components/ui/button';
-import { MultiplicationQuestion } from '@/lib/types';
+import { DivisionQuestion } from '@/lib/types';
 import { cn } from '@/lib/utils';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { MoonLoader } from 'react-spinners';
 
-interface MultiplicationGameProps {}
+interface DivisionGameProps {}
 type isCorrect = boolean | null;
 
 const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
-const MultiplicationGame: React.FC<MultiplicationGameProps> = ({}) => {
+const DivisionGame: React.FC<DivisionGameProps> = ({}) => {
   const [isCorrect, setIsCorrect] = useState<isCorrect>(null);
   const [loading, setLoading] = useState(true);
-  const [question, setQuestion] = useState<MultiplicationQuestion>({
-    multiplicand: 0,
-    multiplier: 0,
-    product: 0,
+  const [question, setQuestion] = useState<DivisionQuestion>({
+    dividend: 0,
+    divisor: 0,
+    quotient: 0,
     options: [],
   });
 
-  const getNewMultiplication = async () => {
+  const getNewDivision = async () => {
     try {
-      const res = await axios.get(`${backendUrl}/get-random-multiplication`);
+      const res = await axios.get(`${backendUrl}/get-random-division`);
       await setQuestion(res.data);
       setLoading(false);
     } catch (error) {
@@ -31,13 +32,13 @@ const MultiplicationGame: React.FC<MultiplicationGameProps> = ({}) => {
     }
   };
   useEffect(() => {
-    getNewMultiplication();
+    getNewDivision();
   }, []);
 
   const handleAnswerClicked = async (option: number, answer: number) => {
     const isCorrect: boolean = option === answer;
     setIsCorrect(isCorrect);
-    getNewMultiplication();
+    getNewDivision();
   };
 
   useEffect(() => {
@@ -58,7 +59,7 @@ const MultiplicationGame: React.FC<MultiplicationGameProps> = ({}) => {
       ) : (
         <>
           <h1 className={cn('text-8xl font-bold')}>
-            {question.multiplicand} x {question.multiplier}
+            {question.dividend} &divide; {question.divisor}
           </h1>
           <div className="flex justify-between mt-[2rem] space-x-[2rem]">
             {question.options.map((option) => (
@@ -66,7 +67,7 @@ const MultiplicationGame: React.FC<MultiplicationGameProps> = ({}) => {
                 variant={'ghost'}
                 key={option}
                 className="text-6xl font-bold px-[2rem] py-[3rem]"
-                onClick={() => handleAnswerClicked(option, question.product)}
+                onClick={() => handleAnswerClicked(option, question.quotient)}
               >
                 {option}
               </Button>
@@ -78,4 +79,4 @@ const MultiplicationGame: React.FC<MultiplicationGameProps> = ({}) => {
   );
 };
 
-export default MultiplicationGame;
+export default DivisionGame;
