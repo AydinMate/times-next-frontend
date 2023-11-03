@@ -5,11 +5,8 @@ const HomePage = () => {
   return (
     <div>
       HomePage
-      <Link href={"/multiplication-game"}>
-        <Button>Multiplication</Button>
-      </Link>
-      <Link href={"/division-game"}>
-        <Button>Division</Button>
+      <Link href={'/arithmetic-game'}>
+        <Button>Arithmetic</Button>
       </Link>
     </div>
   );

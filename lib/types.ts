@@ -1,13 +1,7 @@
-export interface MultiplicationQuestion {
-  multiplicand: number;
-  multiplier: number;
-  product: number;
-  options: number[];
-}
-
-export interface DivisionQuestion {
-  dividend: number;
-  divisor: number;
-  quotient: number;
+export interface BasicArithmetic {
+  operation: string;
+  firstNumber: number;
+  secondNumber: number;
+  answer: number;
   options: number[];
 }

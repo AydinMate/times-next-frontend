@@ -1,44 +1,69 @@
-
 'use client';
 import { Button } from '@/components/ui/button';
-import { DivisionQuestion } from '@/lib/types';
+import { BasicArithmetic } from '@/lib/types';
 import { cn } from '@/lib/utils';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { MoonLoader } from 'react-spinners';
 
-interface DivisionGameProps {}
+type Settings = {
+  multiplication: boolean;
+  division: boolean;
+  allowNegatives: boolean;
+};
+
+interface ArithmeticGameProps {
+  settings: Settings;
+}
 type isCorrect = boolean | null;
 
 const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
-const DivisionGame: React.FC<DivisionGameProps> = ({}) => {
+const ArithmeticGame: React.FC<ArithmeticGameProps> = ({
+  settings,
+}) => {
+  const [url, setUrl] = useState('');
   const [isCorrect, setIsCorrect] = useState<isCorrect>(null);
   const [loading, setLoading] = useState(true);
-  const [question, setQuestion] = useState<DivisionQuestion>({
-    dividend: 0,
-    divisor: 0,
-    quotient: 0,
+  const [question, setQuestion] = useState<BasicArithmetic>({
+    operation: '',
+    firstNumber: 0,
+    secondNumber: 0,
+    answer: 0,
     options: [],
   });
 
-  const getNewDivision = async () => {
+  const getNewMultiplication = async (url: string) => {
     try {
-      const res = await axios.get(`${backendUrl}/get-random-division`);
+      const res = await axios.get(`${backendUrl}/get-arithmetic-${url}`);
       await setQuestion(res.data);
       setLoading(false);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
+
   useEffect(() => {
-    getNewDivision();
-  }, []);
+    let urlString = '';
+    if (settings.multiplication === true) {
+      urlString += 'm';
+    }
+    if (settings.division === true) {
+      urlString += 'd';
+    }
+    if (settings.allowNegatives === false) {
+      urlString += 'p';
+    } else {
+      urlString += 'n';
+    }
+    setUrl(urlString);
+    getNewMultiplication(url);
+  }, [settings, url]);
 
   const handleAnswerClicked = async (option: number, answer: number) => {
     const isCorrect: boolean = option === answer;
     setIsCorrect(isCorrect);
-    getNewDivision();
+    getNewMultiplication(url);
   };
 
   useEffect(() => {
@@ -59,15 +84,20 @@ const DivisionGame: React.FC<DivisionGameProps> = ({}) => {
       ) : (
         <>
           <h1 className={cn('text-8xl font-bold')}>
-            {question.dividend} &divide; {question.divisor}
+            <span
+              dangerouslySetInnerHTML={{
+                __html: `${question.firstNumber} &nbsp; ${question.operation} &nbsp; ${question.secondNumber}`,
+              }}
+            />
           </h1>
+
           <div className="flex justify-between mt-[2rem] space-x-[2rem]">
             {question.options.map((option) => (
               <Button
                 variant={'ghost'}
                 key={option}
                 className="text-6xl font-bold px-[2rem] py-[3rem]"
-                onClick={() => handleAnswerClicked(option, question.quotient)}
+                onClick={() => handleAnswerClicked(option, question.answer)}
               >
                 {option}
               </Button>
@@ -79,4 +109,4 @@ const DivisionGame: React.FC<DivisionGameProps> = ({}) => {
   );
 };
 
-export default DivisionGame;
+export default ArithmeticGame;
