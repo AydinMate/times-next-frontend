@@ -75,7 +75,7 @@ const ArithmeticGame: React.FC<ArithmeticGameProps> = ({
   return (
     <div
       className={cn(
-        'flex flex-col items-center justify-center  w-full h-full',
+        'flex flex-col items-center justify-center w-full h-full mt-[2rem]',
         isCorrect !== null && (isCorrect ? 'bg-green-400' : 'bg-red-400')
       )}
     >
@@ -83,7 +83,7 @@ const ArithmeticGame: React.FC<ArithmeticGameProps> = ({
         <MoonLoader color="#ffffff" size={130} />
       ) : (
         <>
-          <h1 className={cn('text-8xl font-bold')}>
+          <h1 className={cn('text-7xl font-bold sm:text-8xl')}>
             <span
               dangerouslySetInnerHTML={{
                 __html: `${question.firstNumber} &nbsp; ${question.operation} &nbsp; ${question.secondNumber}`,
@@ -91,12 +91,12 @@ const ArithmeticGame: React.FC<ArithmeticGameProps> = ({
             />
           </h1>
 
-          <div className="flex justify-between mt-[2rem] space-x-[2rem]">
+          <div className="grid grid-cols-2 justify-between mt-[3rem] sm:flex">
             {question.options.map((option) => (
               <Button
                 variant={'ghost'}
                 key={option}
-                className="text-6xl font-bold px-[2rem] py-[3rem]"
+                className="text-5xl font-bold py-[3rem] mx-[2rem] sm:text-6xl"
                 onClick={() => handleAnswerClicked(option, question.answer)}
               >
                 {option}
